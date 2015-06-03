@@ -116,18 +116,64 @@ public:
     }
 };
 
+void sort_list(const LinkedList &ll)
+{
+    LinkedList::Node* outer = ll.start;
+    LinkedList::Node* inner = outer;
+    for(outer = ll.start; outer; outer = outer->next)
+    {
+        for(inner = outer->next; inner; inner = inner->next)
+        {
+            if(outer->data.compare(inner->data)  > 0)
+            ///Tova e za stringove. Obqsneno e v "Return Value" na tazi stranica http://www.cplusplus.com/reference/string/string/compare/
+            /// Ako shte go pishete s chisla, prosto shte sravnqvate outer->data < inner->data primerno
+            {
+                string data = outer->data;
+                outer->data = inner->data;
+                inner->data = data;
+            }
+        }
+    }
+
+}
+
+LinkedList::Node* find_by_value(const LinkedList& ll, string value)
+{
+    for(LinkedList::Node* iterator = ll.start; iterator; iterator = iterator->next)
+    {
+        if(value == iterator->data)
+        {
+            return iterator; //return Node containing value
+        }
+    }
+    return 0;
+}
+
 int main()
 {
     LinkedList ll;
-    ll.push_front("this?");  //         this?
-    ll.push_front("is ");    //      is this?
-    ll.push_front("what ");  // what is this?
-    ll.push_back(" shit?");  // what is this? shit?
-    ll.erase(ll[1]);         // what    this? shit?
-    ll.pop_back();           // what    this?
+    ll.push_front("a");  //         this?
+    ll.push_front("b");    //      is this?
+    ll.push_front("c");  // what is this?
+    ll.push_back("d");  // what is this? shit?
+    //ll.erase(ll[1]);         // what    this? shit?
+   //ll.pop_back();           // what    this?
+   cout <<"Unsorted:\n";
     for(int i=0;i<=10;i++)
     {
         if(ll[i]) cout <<ll[i]->data;
     }
+    sort_list(ll);
+    cout <<"\nSorted:\n";
+    for(int i=0;i<=10;i++)
+    {
+        if(ll[i]) cout <<ll[i]->data;
+    }
+    cout<<"\nFind \"a\"\n";
+    LinkedList::Node* found = find_by_value(ll, "a");
+    if(found) cout << found->data << endl;
+    cout<<"\nFind \"s\"\n";
+    found = find_by_value(ll, "s");
+    if(!found) cout << "Not found. Returned null\n";
     cout << endl;
 }
