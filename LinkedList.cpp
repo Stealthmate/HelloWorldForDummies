@@ -55,8 +55,11 @@ public:
 
     void push_back(string s)
     {
-        Node* new_node = new Node(s);
+        Node* new_node = new Node();
         end->next = new_node;
+        new_node->data = end->data;
+        end->data = s;
+        ///^ tova se pravi, shoto inache praznata stoinost (v sluchaq prazen string) shte ostane po sreadata na lista
         end = new_node;
     }
 
@@ -120,9 +123,9 @@ void sort_list(const LinkedList &ll)
 {
     LinkedList::Node* outer = ll.start;
     LinkedList::Node* inner = outer;
-    for(outer = ll.start; outer; outer = outer->next)
+    for(outer = ll.start; outer->next; outer = outer->next)
     {
-        for(inner = outer->next; inner; inner = inner->next)
+        for(inner = outer->next; inner->next; inner = inner->next)
         {
             if(outer->data.compare(inner->data)  > 0)
             ///Tova e za stringove. Obqsneno e v "Return Value" na tazi stranica http://www.cplusplus.com/reference/string/string/compare/
@@ -161,7 +164,7 @@ int main()
    cout <<"Unsorted:\n";
     for(int i=0;i<=10;i++)
     {
-        if(ll[i]) cout <<ll[i]->data;
+        if(ll[i]) cout << " " <<ll[i]->data;
     }
     sort_list(ll);
     cout <<"\nSorted:\n";
