@@ -109,6 +109,7 @@ int main()
     stack.push("b");    //      is this?
     stack.push("c");  // what is this?
     stack.push("d");  // what is this? shit?
+    stack.pop();
     cout <<"Unsorted:\n";
     output_stack(stack);
     sort_stack(stack);
